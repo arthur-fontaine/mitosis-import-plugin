@@ -4,15 +4,19 @@ import { mitosisImportPluginCore } from "../mitosisImportPluginCore";
 describe("requiresMitosisProcessing", () => {
 	test("should return true if mitosis attribute is present", async () => {
 		const attributes = { mitosis: "react" };
-		const result =
-			await mitosisImportPluginCore.requiresMitosisProcessing(attributes, () => Promise.resolve(""));
+		const result = await mitosisImportPluginCore.requiresMitosisProcessing(
+			attributes,
+			() => Promise.resolve(""),
+		);
 		expect(result).toBe(true);
 	});
 
 	test("should return false if mitosis attribute is absent", async () => {
 		const attributes = {};
-		const result =
-			await mitosisImportPluginCore.requiresMitosisProcessing(attributes, () => Promise.resolve(""));
+		const result = await mitosisImportPluginCore.requiresMitosisProcessing(
+			attributes,
+			() => Promise.resolve(""),
+		);
 		expect(result).toBe(false);
 	});
 

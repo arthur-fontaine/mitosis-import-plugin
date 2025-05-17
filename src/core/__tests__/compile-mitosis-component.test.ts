@@ -20,7 +20,7 @@ describe("compileMitosisComponent", async () => {
 
 			const result = await mitosisImportPluginCore.compileMitosisComponent(
 				{ source: componentSource, path: "path/to/component.ts" },
-				{ source: '', path: '' },
+				{ source: "", path: "" },
 				target,
 			);
 
@@ -35,7 +35,7 @@ describe("compileMitosisComponent", async () => {
 				const result = await mitosisImportPluginCore.compileMitosisComponent(
 					{ source: componentSource, path: "path/to/component.ts" },
 					// biome-ignore lint/style/noNonNullAssertion: we checked that autoPath is defined above
-					{ source: '', path: fixture.autoPath! },
+					{ source: "", path: fixture.autoPath! },
 					"auto",
 				);
 

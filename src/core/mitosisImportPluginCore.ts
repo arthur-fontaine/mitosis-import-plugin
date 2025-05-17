@@ -31,7 +31,11 @@ class MitosisImportPluginCore {
 		importer: { source: string; path: string },
 		target: Target,
 	): Promise<string> {
-		const realTarget = this.#getRealTarget(target, importer.path, importer.source);
+		const realTarget = this.#getRealTarget(
+			target,
+			importer.path,
+			importer.source,
+		);
 		const mitosisPath = this.#getMitosisExecutablePath();
 
 		const command = `echo ${JSON.stringify(component.source)} | ${mitosisPath} compile -t ${realTarget} --path ${component.path} --state useState`;
@@ -47,8 +51,12 @@ class MitosisImportPluginCore {
 
 	#getMitosisExecutablePath(): string {
 		const _require = globalThis.require || createRequire(import.meta.url);
-		const mitosisCliPackagePath = _require.resolve("@builder.io/mitosis-cli/package.json");
-		const mitosisCliPackage = JSON.parse(fs.readFileSync(mitosisCliPackagePath, "utf-8"));
+		const mitosisCliPackagePath = _require.resolve(
+			"@builder.io/mitosis-cli/package.json",
+		);
+		const mitosisCliPackage = JSON.parse(
+			fs.readFileSync(mitosisCliPackagePath, "utf-8"),
+		);
 
 		const mitosisCliPath = path.join(
 			path.dirname(mitosisCliPackagePath),
@@ -58,7 +66,11 @@ class MitosisImportPluginCore {
 		return mitosisCliPath;
 	}
 
-	#getRealTarget(target: Target, importerPath: string, importerSource: string): Target {
+	#getRealTarget(
+		target: Target,
+		importerPath: string,
+		importerSource: string,
+	): Target {
 		if (target === "auto") {
 			return this.#inferTargetFromSource(importerSource, importerPath);
 		}

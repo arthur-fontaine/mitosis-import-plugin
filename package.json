@@ -8,15 +8,9 @@
 	},
 	"license": "MIT",
 	"author": "Arthur Fontaine <me@arthurfontaine.fr>",
-	"keywords": [
-		"mitosis",
-		"plugin",
-		"esbuild"
-	],
+	"keywords": ["mitosis", "plugin", "esbuild"],
 	"description": "A universal plugin to import Mitosis components without the need to compile them manually.",
-	"files": [
-		"dist"
-	],
+	"files": ["dist"],
 	"exports": {
 		"./esbuild": {
 			"types": "./dist/esbuild.d.ts",

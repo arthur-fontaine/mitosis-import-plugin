@@ -62,10 +62,12 @@ describe("esbuild build", () => {
 				resolveDir: __dirname,
 			},
 			write: false,
-			plugins: [mitosisImportPlugin({
-				detectMitosisFilesWithSource: true,
-				target: "react",
-			})],
+			plugins: [
+				mitosisImportPlugin({
+					detectMitosisFilesWithSource: true,
+					target: "react",
+				}),
+			],
 			bundle: true,
 			external: ["react"],
 			format: "esm",
