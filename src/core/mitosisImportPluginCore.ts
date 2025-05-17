@@ -23,7 +23,7 @@ class MitosisImportPluginCore {
 		target: Target,
 	): Promise<string> {
 		this.#throwIfTargetIsAuto(target);
-    const mitosisPath = this.#getMitosisExecutablePath();
+		const mitosisPath = this.#getMitosisExecutablePath();
 
 		const command = `echo ${JSON.stringify(componentSource)} | ${mitosisPath} compile -t ${target} --path ${componentPath}`;
 		try {
@@ -36,17 +36,21 @@ class MitosisImportPluginCore {
 		}
 	}
 
-  #getMitosisExecutablePath(): string {
-    const mitosisCliPackagePath = require.resolve('@builder.io/mitosis-cli/package.json');
-    const mitosisCliPackage = JSON.parse(fs.readFileSync(mitosisCliPackagePath, 'utf-8'));
+	#getMitosisExecutablePath(): string {
+		const mitosisCliPackagePath = require.resolve(
+			"@builder.io/mitosis-cli/package.json",
+		);
+		const mitosisCliPackage = JSON.parse(
+			fs.readFileSync(mitosisCliPackagePath, "utf-8"),
+		);
 
-    const mitosisCliPath = path.join(
-      path.dirname(mitosisCliPackagePath),
-      mitosisCliPackage.bin.mitosis
-    );
-    
-    return mitosisCliPath;
-  }
+		const mitosisCliPath = path.join(
+			path.dirname(mitosisCliPackagePath),
+			mitosisCliPackage.bin.mitosis,
+		);
+
+		return mitosisCliPath;
+	}
 
 	#throwIfTargetIsAuto(target: Target): void {
 		if (target === "auto") {
