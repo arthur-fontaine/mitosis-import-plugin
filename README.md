@@ -37,6 +37,13 @@ export default {
   plugins: [
     // Add the plugin to your esbuild config
     mitosisImportPlugin(),
+
+    // You can specify the Mitosis target to compile to
+    mitosisImportPlugin({ target: 'react' }),
+
+    // You can also enable the plugin to detect Mitosis components automatically
+    // If you enable this option, you don't need to add the `with { mitosis: 'react' }` import attribute
+    mitosisImportPlugin({ detectMitosisFilesWithSource: true }),
   ],
 };
 ```
