@@ -1,6 +1,6 @@
 // This fixture comes from the example of the Mitosis homepage: https://mitosis.builder.io/
 
-export const target = 'svelte';
+export const target = "svelte";
 
 export const input = `
 import { useState } from "@builder.io/mitosis";
