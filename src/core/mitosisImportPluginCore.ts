@@ -12,11 +12,6 @@ class MitosisImportPluginCore {
 
   getMitosisTarget(attributes: Dict<string>): string {
     const target = attributes['mitosis'] || 'auto';
-
-    if (target === 'auto') {
-      throw new Error('Auto target is not yet supported');
-    }
-
     return target;
   }
 
@@ -25,7 +20,9 @@ class MitosisImportPluginCore {
     componentPath: string,
     target: string,
   ): Promise<string> {
-    const command = `mitosis compile -t ${target} < (echo ${JSON.stringify(componentSource)})`;
+    this.#throwIfTargetIsAuto(target);
+
+    const command = `echo ${JSON.stringify(componentSource)} | mitosis compile -t ${target} --path ${componentPath}`;
     try {
       const output = await execAsync(command, { encoding: 'utf-8' });
       if (output.stderr) throw new Error(output.stderr);
@@ -33,6 +30,12 @@ class MitosisImportPluginCore {
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       throw new Error(`Error compiling Mitosis component: ${message}`);
+    }
+  }
+
+  #throwIfTargetIsAuto(target: string): void {
+    if (target === 'auto') {
+      throw new Error('Auto target is not yet supported');
     }
   }
 }
