@@ -18,6 +18,7 @@ export const mitosisImportPlugin = (): Plugin => ({
 				namespace: "mitosis",
 				pluginData: { target, kind: args.kind, resolveDir: args.resolveDir },
 				path: args.path,
+				watchFiles: [args.path],
 			};
 		});
 
@@ -38,6 +39,7 @@ export const mitosisImportPlugin = (): Plugin => ({
 				contents: compiledComponent,
 				loader: getLoaderFromTarget(target) as never,
 				resolveDir,
+				watchFiles: [path],
 			};
 		});
 	},
