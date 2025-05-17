@@ -1,3 +1,7 @@
 {
-	"conventionalCommits.scopes": ["Core", "Esbuild"]
+	"conventionalCommits.scopes": [
+		"Core",
+		"Esbuild",
+		"Example"
+	]
 }

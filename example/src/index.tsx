@@ -3,7 +3,7 @@ import Component from './mitosis' with { mitosis: 'react' };
 
 function App() {
   return (
-    <Component />
+    <Component name='Arthur' />
   );
 }
 
