@@ -16,6 +16,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Remove example directory
+        run: rm -rf example
+
       - name: Set up Bun
         uses: oven-sh/setup-bun@v1
         with:
