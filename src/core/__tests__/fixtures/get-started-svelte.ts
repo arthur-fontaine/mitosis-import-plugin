@@ -21,3 +21,5 @@ export default function MyComponent(props) {
     </div>
   );
 }`;
+
+export const autoPath = "path/to/importer.svelte";

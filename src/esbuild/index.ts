@@ -1,5 +1,5 @@
 import fs from "node:fs";
-import type { Plugin } from "esbuild";
+import type { ImportKind, Plugin } from "esbuild";
 
 import { mitosisImportPluginCore } from "../core/mitosisImportPluginCore";
 import type { Target } from "@builder.io/mitosis";
@@ -16,22 +16,34 @@ export const mitosisImportPlugin = (): Plugin => ({
 
 			return {
 				namespace: "mitosis",
-				pluginData: { target, kind: args.kind, resolveDir: args.resolveDir },
+				pluginData: {
+					target,
+					importKind: args.kind,
+					resolveDir: args.resolveDir,
+					importerPath: args.importer,
+				},
 				path: args.path,
 				watchFiles: [args.path],
 			};
 		});
 
 		build.onLoad({ filter: /.*/, namespace: "mitosis" }, async (args) => {
-			const { target, kind, resolveDir } = args.pluginData || {};
+			const { target, importKind, resolveDir, importerPath } = args.pluginData as {
+				target: Target;
+				importKind: ImportKind;
+				resolveDir: string;
+				importerPath: string;
+			};
 
-			const { path } = await build.resolve(args.path, { kind, resolveDir });
-			const componentSource = await fs.promises.readFile(path, "utf8");
+			const { path: componentPath } = await build.resolve(args.path, { kind: importKind, resolveDir });
+			const componentSource = await fs.promises.readFile(componentPath, "utf8");
+
+			const importerSource = await fs.promises.readFile(importerPath, "utf8").catch(() => '');
 
 			const compiledComponent =
 				await mitosisImportPluginCore.compileMitosisComponent(
-					componentSource,
-					path,
+					{ source: componentSource, path: componentPath },
+					{ source: importerSource, path: importerPath },
 					target,
 				);
 
@@ -39,7 +51,7 @@ export const mitosisImportPlugin = (): Plugin => ({
 				contents: compiledComponent,
 				loader: getLoaderFromTarget(target) as never,
 				resolveDir,
-				watchFiles: [path],
+				watchFiles: [componentPath],
 			};
 		});
 	},
