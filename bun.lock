@@ -5,6 +5,7 @@
       "name": "mitosis-import-plugin",
       "devDependencies": {
         "@biomejs/biome": "^1.9.4",
+        "@builder.io/mitosis": "^0.10.0",
         "@builder.io/mitosis-cli": "^0.10.0",
         "esbuild": "^0.25.4",
         "typescript": "^5.0.0",

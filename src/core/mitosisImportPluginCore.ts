@@ -1,5 +1,6 @@
 import { exec } from 'node:child_process';
 import { promisify } from 'node:util';
+import type { Target } from './types/Target';
 
 const execAsync = promisify(exec);
 
@@ -10,7 +11,7 @@ class MitosisImportPluginCore {
     return attributes['mitosis'] !== undefined; 
   }
 
-  getMitosisTarget(attributes: Dict<string>): string {
+  getMitosisTarget(attributes: Dict<string>): Target {
     const target = attributes['mitosis'] || 'auto';
     return target;
   }
@@ -18,7 +19,7 @@ class MitosisImportPluginCore {
   async compileMitosisComponent(
     componentSource: string,
     componentPath: string,
-    target: string,
+    target: Target,
   ): Promise<string> {
     this.#throwIfTargetIsAuto(target);
 
@@ -33,7 +34,7 @@ class MitosisImportPluginCore {
     }
   }
 
-  #throwIfTargetIsAuto(target: string): void {
+  #throwIfTargetIsAuto(target: Target): void {
     if (target === 'auto') {
       throw new Error('Auto target is not yet supported');
     }

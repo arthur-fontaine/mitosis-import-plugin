@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import type { Plugin } from 'esbuild';
 
 import { mitosisImportPluginCore } from '../core/mitosisImportPluginCore';
+import type { Target } from '@builder.io/mitosis';
 
 export const mitosisImportPlugin = (): Plugin => ({
 
@@ -34,7 +35,7 @@ export const mitosisImportPlugin = (): Plugin => ({
 
       return {
         contents: compiledComponent,
-        loader: 'tsx' as const, // TODO: can esbuild be compatible with vue?
+        loader: getLoaderFromTarget(target) as any,
       };
 
     })
@@ -42,3 +43,19 @@ export const mitosisImportPlugin = (): Plugin => ({
   },
 
 });
+
+function getLoaderFromTarget(target: Target) {
+  switch (target) {
+    case 'lit':
+    case 'mitosis':
+    case 'preact':
+    case 'qwik':
+    case 'react':
+    case 'reactNative':
+    case 'rsc':
+    case 'solid':
+    case 'stencil':
+      return 'tsx';
+    default: return target;
+  }
+}
