@@ -30,13 +30,7 @@ jobs:
       - name: Check package with publint
         run: bun run publint
 
-      - name: Set up Node.js for npm publishing
-        uses: actions/setup-node@v4
-        with:
-          node-version: 'latest'
-          registry-url: 'https://registry.npmjs.org/'
-
       - name: Publish to npm
-        run: npm publish --access public
+        run: bun publish --access public
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_TOKEN: ${{ secrets.NPM_TOKEN }}
