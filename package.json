@@ -8,9 +8,11 @@
 		"format:fix": "biome format --write"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^1.9.4"
+		"@biomejs/biome": "^1.9.4",
+		"@builder.io/mitosis-cli": "^0.10.0",
+		"typescript": "^5.0.0"
 	},
 	"peerDependencies": {
-		"typescript": "^5.0.0"
+		"@builder.io/mitosis-cli": "^0.10.0"
 	}
 }
