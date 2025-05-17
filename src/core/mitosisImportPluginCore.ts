@@ -8,11 +8,11 @@ import path from "node:path";
 const execAsync = promisify(exec);
 
 class MitosisImportPluginCore {
-	requiresMitosisProcessing(attributes: Dict<string>): boolean {
+	requiresMitosisProcessing(attributes: Record<string, string>): boolean {
 		return attributes.mitosis !== undefined;
 	}
 
-	getMitosisTarget(attributes: Dict<string>): Target {
+	getMitosisTarget(attributes: Record<string, string>): Target {
 		const target = attributes.mitosis || "auto";
 		return target;
 	}
