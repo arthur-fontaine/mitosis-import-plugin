@@ -1,4 +1,6 @@
+import fs from 'node:fs';
 import type { Plugin } from 'esbuild';
+
 import { mitosisImportPluginCore } from '../core/mitosisImportPluginCore';
 
 export const mitosisImportPlugin = (): Plugin => ({
@@ -15,17 +17,20 @@ export const mitosisImportPlugin = (): Plugin => ({
 
       return {
         namespace: 'mitosis',
-        pluginData: { target },
+        pluginData: { target, kind: args.kind, resolveDir: args.resolveDir },
+        path: args.path,
       };
 
     });
 
     build.onLoad({ filter: /.*/, namespace: 'mitosis' }, async (args) => {
 
-      const target = args.pluginData?.target;
-      if (!target) throw new Error('Target not found in plugin data');
+      const { target, kind, resolveDir } = args.pluginData || {};
 
-      const compiledComponent = await mitosisImportPluginCore.compileMitosisComponent(args.path, args.namespace, target);
+      const { path } = await build.resolve(args.path, { kind, resolveDir })
+      const componentSource = await fs.promises.readFile(path, 'utf8')
+
+      const compiledComponent = await mitosisImportPluginCore.compileMitosisComponent(componentSource, path, target);
 
       return {
         contents: compiledComponent,
