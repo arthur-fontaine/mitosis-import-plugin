@@ -6,4 +6,6 @@ export const esbuildConfig: esbuild.BuildOptions = {
   bundle: true,
   outfile: 'dist/index.js',
   plugins: [mitosisImportPlugin()],
+  jsx: 'automatic',
+  jsxDev: true,
 }
