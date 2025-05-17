@@ -4,6 +4,7 @@ import fs from "node:fs";
 
 import type { Target } from "./types/Target";
 import path from "node:path";
+import { createRequire } from "node:module";
 
 const execAsync = promisify(exec);
 
@@ -37,12 +38,9 @@ class MitosisImportPluginCore {
 	}
 
 	#getMitosisExecutablePath(): string {
-		const mitosisCliPackagePath = require.resolve(
-			"@builder.io/mitosis-cli/package.json",
-		);
-		const mitosisCliPackage = JSON.parse(
-			fs.readFileSync(mitosisCliPackagePath, "utf-8"),
-		);
+		const _require = globalThis.require || createRequire(import.meta.url);
+		const mitosisCliPackagePath = _require.resolve("@builder.io/mitosis-cli/package.json");
+		const mitosisCliPackage = JSON.parse(fs.readFileSync(mitosisCliPackagePath, "utf-8"));
 
 		const mitosisCliPath = path.join(
 			path.dirname(mitosisCliPackagePath),
