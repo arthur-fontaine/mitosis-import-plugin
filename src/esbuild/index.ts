@@ -37,6 +37,7 @@ export const mitosisImportPlugin = (): Plugin => ({
 			return {
 				contents: compiledComponent,
 				loader: getLoaderFromTarget(target) as never,
+				resolveDir,
 			};
 		});
 	},
