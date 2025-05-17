@@ -21,24 +21,21 @@ class MitosisImportPluginCore {
 		return false;
 	}
 
-	getMitosisTarget(attributes: Record<string, string>): Target {
+	getMitosisTarget(
+		attributes: Record<string, string>,
+		importer: { source: string; path: string },
+	): Target {
 		const target = attributes.mitosis || "auto";
-		return target;
+		return this.#getRealTarget(target, importer.path, importer.source);
 	}
 
 	async compileMitosisComponent(
 		component: { source: string; path: string },
-		importer: { source: string; path: string },
 		target: Target,
 	): Promise<string> {
-		const realTarget = this.#getRealTarget(
-			target,
-			importer.path,
-			importer.source,
-		);
 		const mitosisPath = this.#getMitosisExecutablePath();
 
-		const command = `echo ${JSON.stringify(component.source)} | ${mitosisPath} compile -t ${realTarget} --path ${component.path} --state useState`;
+		const command = `echo ${JSON.stringify(component.source)} | ${mitosisPath} compile -t ${target} --path ${component.path} --state useState`;
 		try {
 			const output = await execAsync(command, { encoding: "utf-8" });
 			if (output.stderr) throw new Error(output.stderr);

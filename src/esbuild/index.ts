@@ -18,26 +18,37 @@ export const mitosisImportPlugin = (
 		build.onResolve({ filter: /.*/ }, async (args) => {
 			if (args.pluginData?.dontRunMitosisImportPlugin) return null;
 
-			async function getSourceContent() {
-				const { path: componentPath } = await build.resolve(args.path, {
+			async function resolveAndReadFile(path: string) {
+				const { path: resolvedPath } = await build.resolve(path, {
 					kind: args.kind,
 					resolveDir: args.resolveDir,
 					pluginData: { dontRunMitosisImportPlugin: true },
 				});
-				return fs.promises.readFile(componentPath, "utf8").catch(() => "");
+				return await fs.promises.readFile(resolvedPath, "utf8");
 			}
 
 			if (
 				!(await mitosisImportPluginCore.requiresMitosisProcessing(
 					args.with,
 					async () =>
-						options.detectMitosisFilesWithSource ? getSourceContent() : "",
+						options.detectMitosisFilesWithSource
+							? resolveAndReadFile(args.path).catch(() => "")
+							: "",
 				))
 			)
 				return null;
 
+			const importerPath = args.importer;
+			const importerSource = await resolveAndReadFile(importerPath).catch(
+				() => "",
+			);
+
 			const target =
-				options.target ?? mitosisImportPluginCore.getMitosisTarget(args.with);
+				options.target ??
+				mitosisImportPluginCore.getMitosisTarget(args.with, {
+					source: importerSource,
+					path: importerPath,
+				});
 
 			return {
 				namespace: "mitosis",
@@ -45,7 +56,6 @@ export const mitosisImportPlugin = (
 					target,
 					importKind: args.kind,
 					resolveDir: args.resolveDir,
-					importerPath: args.importer,
 				},
 				path: args.path,
 				watchFiles: [args.path],
@@ -53,13 +63,11 @@ export const mitosisImportPlugin = (
 		});
 
 		build.onLoad({ filter: /.*/, namespace: "mitosis" }, async (args) => {
-			const { target, importKind, resolveDir, importerPath } =
-				args.pluginData as {
-					target: Target;
-					importKind: ImportKind;
-					resolveDir: string;
-					importerPath: string;
-				};
+			const { target, importKind, resolveDir } = args.pluginData as {
+				target: Target;
+				importKind: ImportKind;
+				resolveDir: string;
+			};
 
 			const { path: componentPath } = await build.resolve(args.path, {
 				kind: importKind,
@@ -68,14 +76,9 @@ export const mitosisImportPlugin = (
 			});
 			const componentSource = await fs.promises.readFile(componentPath, "utf8");
 
-			const importerSource = await fs.promises
-				.readFile(importerPath, "utf8")
-				.catch(() => "");
-
 			const compiledComponent =
 				await mitosisImportPluginCore.compileMitosisComponent(
 					{ source: componentSource, path: componentPath },
-					{ source: importerSource, path: importerPath },
 					target,
 				);
 

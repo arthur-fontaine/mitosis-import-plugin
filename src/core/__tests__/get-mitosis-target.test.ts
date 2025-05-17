@@ -4,13 +4,19 @@ import { mitosisImportPluginCore } from "../mitosisImportPluginCore";
 describe("getMitosisTarget", () => {
 	test("should return the target if mitosis attribute is present", () => {
 		const attributes = { mitosis: "react" };
-		const result = mitosisImportPluginCore.getMitosisTarget(attributes);
+		const result = mitosisImportPluginCore.getMitosisTarget(attributes, {
+			source: "",
+			path: "",
+		});
 		expect(result).toBe("react");
 	});
 
-	test('should return "auto" if mitosis attribute is set to empty string', () => {
+	test("should detect the target from the import path", () => {
 		const attributes = { mitosis: "" };
-		const result = mitosisImportPluginCore.getMitosisTarget(attributes);
-		expect(result).toBe("auto");
+		const result = mitosisImportPluginCore.getMitosisTarget(attributes, {
+			source: "",
+			path: "example.vue",
+		});
+		expect(result).toBe("vue");
 	});
 });

@@ -19,23 +19,3 @@ exports[`compileMitosisComponent > should return the compiled component for fixt
 </style>
 "
 `;
-
-exports[`compileMitosisComponent > should return the component compiled to the guessed target for fixture: ./fixtures/get-started-svelte.ts 1`] = `
-"<script>
-  import onChange from "on-change";
-
-  name = "Steve";
-</script>
-
-<div>
-  <input class="input" bind:value={state.name} />
-  Hello! I can run natively in React, Vue, Svelte, Qwik, and many more frameworks!
-</div>
-
-<style>
-  .input {
-    color: red;
-  }
-</style>
-"
-`;

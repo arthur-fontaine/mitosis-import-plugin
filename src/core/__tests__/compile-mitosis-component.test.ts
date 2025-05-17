@@ -11,7 +11,6 @@ describe("compileMitosisComponent", async () => {
 		const fixture = (await fixtureModule()) as {
 			input: string;
 			target: string;
-			autoPath?: string;
 		};
 		const { input, target } = fixture;
 
@@ -20,28 +19,11 @@ describe("compileMitosisComponent", async () => {
 
 			const result = await mitosisImportPluginCore.compileMitosisComponent(
 				{ source: componentSource, path: "path/to/component.ts" },
-				{ source: "", path: "" },
 				target,
 			);
 
 			expect(result).toBeDefined();
 			expect(result).toMatchSnapshot();
 		});
-
-		if (fixture.autoPath) {
-			test(`should return the component compiled to the guessed target for fixture: ${fixtureModulePath}`, async () => {
-				const componentSource = input.trim();
-
-				const result = await mitosisImportPluginCore.compileMitosisComponent(
-					{ source: componentSource, path: "path/to/component.ts" },
-					// biome-ignore lint/style/noNonNullAssertion: we checked that autoPath is defined above
-					{ source: "", path: fixture.autoPath! },
-					"auto",
-				);
-
-				expect(result).toBeDefined();
-				expect(result).toMatchSnapshot();
-			});
-		}
 	}
 });
