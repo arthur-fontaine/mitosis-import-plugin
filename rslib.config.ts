@@ -9,6 +9,7 @@ export default defineConfig({
 		entry: {
 			esbuild: "./src/esbuild/index.ts",
 		},
+		exclude: ["**/__tests__/**", "**/example/**", "**/examples/**", "example"],
 	},
 	output: {
 		cleanDistPath: true,
