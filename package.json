@@ -4,7 +4,7 @@
 	"version": "0.1.0",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/arthur-fontaine/mitosis-import-plugin.git"
+		"url": "git+https://github.com/arthur-fontaine/mitosis-import-plugin.git"
 	},
 	"license": "MIT",
 	"author": "Arthur Fontaine <me@arthurfontaine.fr>",
@@ -14,7 +14,9 @@
 		"esbuild"
 	],
 	"description": "A universal plugin to import Mitosis components without the need to compile them manually.",
-	"files": ["dist"],
+	"files": [
+		"dist"
+	],
 	"exports": {
 		"esbuild": {
 			"types": "./dist/esbuild.d.ts",
