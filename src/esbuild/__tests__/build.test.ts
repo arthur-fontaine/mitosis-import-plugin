@@ -50,4 +50,30 @@ describe("esbuild build", () => {
 		expect(outputFile.text).not.toContain('with { mitosis: "react" }');
 		expect(outputFile.text).toMatchSnapshot();
 	});
+
+	test("should detect mitosis files with source and build", async () => {
+		const result = await esbuild.build({
+			stdin: {
+				contents: `
+					import MyComponent from "./component";
+					export const comp = () => <MyComponent />;
+				`,
+				loader: "jsx",
+				resolveDir: __dirname,
+			},
+			write: false,
+			plugins: [mitosisImportPlugin({
+				detectMitosisFilesWithSource: true,
+				target: "react",
+			})],
+			bundle: true,
+			external: ["react"],
+			format: "esm",
+		});
+
+		const [outputFile] = result.outputFiles;
+
+		expect(outputFile.text).toBeTruthy();
+		expect(outputFile.text).toMatchSnapshot();
+	});
 });

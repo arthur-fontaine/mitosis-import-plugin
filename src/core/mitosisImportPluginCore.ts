@@ -9,8 +9,16 @@ import { createRequire } from "node:module";
 const execAsync = promisify(exec);
 
 class MitosisImportPluginCore {
-	requiresMitosisProcessing(attributes: Record<string, string>): boolean {
-		return attributes.mitosis !== undefined;
+	async requiresMitosisProcessing(
+		attributes: Record<string, string>,
+		getSourceContent: () => Promise<string>,
+	): Promise<boolean> {
+		if (attributes.mitosis !== undefined) return true;
+
+		const sourceContent = await getSourceContent();
+		if (/from ['"]@builder.io\/mitosis['"]/.test(sourceContent)) return true;
+
+		return false;
 	}
 
 	getMitosisTarget(attributes: Record<string, string>): Target {
