@@ -1,5 +1,6 @@
+import React from "react";
 import { createRoot } from "react-dom/client";
-import Component from "./mitosis" with { mitosis: "react" };
+import Component from "./mitosis";
 
 function App() {
 	return <Component name="Arthur" />;

@@ -5,7 +5,11 @@ export const esbuildConfig: esbuild.BuildOptions = {
 	entryPoints: ["src/index.tsx"],
 	bundle: true,
 	outfile: "dist/index.js",
-	plugins: [mitosisImportPlugin()],
+	plugins: [
+		mitosisImportPlugin({
+			detectMitosisFilesWithSource: true,
+		}),
+	],
 	jsx: "automatic",
 	jsxDev: true,
 };
