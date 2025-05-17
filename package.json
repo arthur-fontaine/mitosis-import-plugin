@@ -1,7 +1,7 @@
 {
 	"name": "mitosis-import-plugin",
 	"type": "module",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/arthur-fontaine/mitosis-import-plugin.git"
@@ -18,12 +18,12 @@
 		"dist"
 	],
 	"exports": {
-		"esbuild": {
+		"./esbuild": {
 			"types": "./dist/esbuild.d.ts",
 			"import": "./dist/esbuild.js",
 			"require": "./dist/esbuild.cjs"
 		},
-		"*": {
+		"./*": {
 			"types": "./dist/*.d.ts",
 			"import": "./dist/*.js",
 			"require": "./dist/*.cjs"
