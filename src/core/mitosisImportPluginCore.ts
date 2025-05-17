@@ -26,7 +26,7 @@ class MitosisImportPluginCore {
 		this.#throwIfTargetIsAuto(target);
 		const mitosisPath = this.#getMitosisExecutablePath();
 
-		const command = `echo ${JSON.stringify(componentSource)} | ${mitosisPath} compile -t ${target} --path ${componentPath}`;
+		const command = `echo ${JSON.stringify(componentSource)} | ${mitosisPath} compile -t ${target} --path ${componentPath} --state useState`;
 		try {
 			const output = await execAsync(command, { encoding: "utf-8" });
 			if (output.stderr) throw new Error(output.stderr);
