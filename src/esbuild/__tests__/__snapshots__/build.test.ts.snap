@@ -26,3 +26,30 @@ export {
 };
 "
 `;
+
+exports[`esbuild build > should build with mitosis import plugin and forced target 1`] = `
+"// mitosis:./component
+import * as React2 from "react";
+import { useState } from "react";
+function MyComponent(props) {
+  const [name, setName] = useState(() => "Steve");
+  return /* @__PURE__ */ React2.createElement("div", null, /* @__PURE__ */ React2.createElement(
+    "input",
+    {
+      css: {
+        color: "red"
+      },
+      value: name,
+      onChange: (event) => setName(event.target.value)
+    }
+  ), "Hello! I can run natively in React, Vue, Svelte, Qwik, and many more frameworks!");
+}
+var component_default = MyComponent;
+
+// <stdin>
+var comp = () => /* @__PURE__ */ React.createElement(component_default, null);
+export {
+  comp
+};
+"
+`;

@@ -4,7 +4,11 @@ import type { ImportKind, Plugin } from "esbuild";
 import { mitosisImportPluginCore } from "../core/mitosisImportPluginCore";
 import type { Target } from "@builder.io/mitosis";
 
-export const mitosisImportPlugin = (): Plugin => ({
+interface MitosisImportPluginOptions {
+	target?: Target;
+}
+
+export const mitosisImportPlugin = (options: MitosisImportPluginOptions = {}): Plugin => ({
 	name: "mitosis-import",
 
 	setup(build) {
@@ -12,7 +16,7 @@ export const mitosisImportPlugin = (): Plugin => ({
 			if (!mitosisImportPluginCore.requiresMitosisProcessing(args.with))
 				return null;
 
-			const target = mitosisImportPluginCore.getMitosisTarget(args.with);
+			const target = options.target ?? mitosisImportPluginCore.getMitosisTarget(args.with);
 
 			return {
 				namespace: "mitosis",
