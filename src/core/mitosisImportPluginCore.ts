@@ -38,7 +38,8 @@ class MitosisImportPluginCore {
 		const command = `echo ${JSON.stringify(component.source)} | ${mitosisPath} compile -t ${target} --path ${component.path} --state useState`;
 		try {
 			const output = await execAsync(command, { encoding: "utf-8" });
-			if (output.stderr) throw new Error(output.stderr);
+			if (output.stderr && !output.stdout) throw new Error(output.stderr);
+			if (output.stdout && output.stderr) console.warn(output.stderr);
 			return output.stdout;
 		} catch (error) {
 			const message = error instanceof Error ? error.message : String(error);

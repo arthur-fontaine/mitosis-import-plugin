@@ -19,3 +19,16 @@ exports[`compileMitosisComponent > should return the compiled component for fixt
 </style>
 "
 `;
+
+exports[`compileMitosisComponent > should return the compiled component for fixture: ./fixtures/warnings-in-stdout.ts 1`] = `
+"/** @jsx h */
+import { h, Fragment } from "preact";
+
+function SftpDownsyncIcon(props) {
+  return <span>SFTP</span>;
+}
+
+export default SftpDownsyncIcon;
+
+"
+`;
